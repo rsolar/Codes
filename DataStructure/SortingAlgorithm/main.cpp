@@ -57,12 +57,12 @@ int main() {
         //cout << a[i][j] << (j != n - 1 ? ' ' : '\n');
       }
     }
-//     cout << "¼òµ¥Ñ¡ÔñÅÅĞò O(n^2):" << endl;
-//     runTest(a, n, selectionSort);
-//     cout << "Ö±½Ó²åÈëÅÅĞò O(n^2):" << endl;
-//     runTest(a, n, insertionSort);
-//     cout << "Ã°ÅİÅÅĞò O(n^2):" << endl;
-//     runTest(a, n, bubbleSort);
+    cout << "¼òµ¥Ñ¡ÔñÅÅĞò O(n^2):" << endl;
+    runTest(a, n, selectionSort);
+    cout << "Ö±½Ó²åÈëÅÅĞò O(n^2):" << endl;
+    runTest(a, n, insertionSort);
+    cout << "Ã°ÅİÅÅĞò O(n^2):" << endl;
+    runTest(a, n, bubbleSort);
     cout << "µİ¹é°æ¿ìËÙÅÅĞò O(nlogn):" << endl;
     runTest(a, n, quickSortRecursive);
     cout << "¸Ä½øµÄµİ¹é°æ¿ìËÙÅÅĞò O(nlogn):" << endl;
@@ -75,12 +75,12 @@ int main() {
     runTest(a, n, GMergeSortRecursive);
     cout << "·Çµİ¹é°æÁ½Â·¹é²¢ÅÅĞò O(nlogn):" << endl;
     runTest(a, n, mergeSortIterative);
-//     cout << "Ô­µØÁ½Â·¹é²¢ÅÅĞò O(nlogn):" << endl;
-//     runTest(a, n, mergeSortInplace);
+    cout << "Ô­µØÁ½Â·¹é²¢ÅÅĞò O(nlogn):" << endl;
+    runTest(a, n, mergeSortInplace);
     cout << "¶ÑÅÅĞò O(nlogn):" << endl;
     runTest(a, n, heapSort);
-//     cout << "¼¦Î²¾ÆÅÅĞò O(n^2):" << endl;
-//     runTest(a, n, cocktailSort);
+    cout << "¼¦Î²¾ÆÅÅĞò O(n^2):" << endl;
+    runTest(a, n, cocktailSort);
     cout << "»ùÊıÅÅĞò O(kn):" << endl;
     runTest(a, n, radixSort);
     cout << "Ï£¶ûÅÅĞò O(nlogn^2):" << endl;
