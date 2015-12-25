@@ -27,7 +27,7 @@ template<typename T> void printCoveringRelation(const vector<T> &fac) { //打印所
       if (fac[j] % fac[i] == 0) {
         bool flag = true;
         for (size_t k = i + 1; k < j; k++) {
-          if (fac[j] % fac[k] == 0 && fac[k] % fac[i] == 0) { flag = false; }
+          if (fac[j] % fac[k] == 0 && fac[k] % fac[i] == 0) { flag = false; break; }
         }
         if (flag) {
           cout << (first ? "<" : ", <") << fac[i] << ", " << fac[j] << ">";
@@ -41,19 +41,27 @@ template<typename T> void printCoveringRelation(const vector<T> &fac) { //打印所
 
 template<typename T> bool isComplementedLattice(const vector<T> &fac) {
   if (fac.size() < 2) { return false; }
+  vector<T> noComp;
   for (size_t i = 0; i < fac.size(); i++) {
-    for (size_t j = i + 1; j < fac.size(); j++) {
-      T gcd = getGCD(fac[i], fac[j]);
-      T lcm = fac[i] / gcd * fac[j];
-      if (gcd != fac.front() || lcm != fac.back()) { return false; }
+    bool exist = false;
+    for (size_t j = 0; j < fac.size(); j++) {
+      T gcd = getGCD(fac[i], fac[j]), lcm = fac[i] / gcd * fac[j];
+      if (gcd == fac.front() && lcm == fac.back()) { exist = true; break; }
+    }
+    if (!exist) { noComp.push_back(fac[i]); }
+  }
+  if (!noComp.empty()) {
+    cout << endl << "以下元素没有补元:" << endl;
+    for (size_t i = 0; i < noComp.size(); i++) {
+      cout << noComp[i] << (i != noComp.size() - 1 ? ' ' : '\n');
     }
   }
-  return true;
+  return noComp.empty();
 }
 
 int main() {
   long long n;
-  while (cout << endl << "请输入一个正整数(n < 2^63): ", cin >> n) {
+  while (cout << endl << "请输入一个正整数: ", cin >> n) {
     if (n <= 0) { continue; }
     vector<long long> fac = getFactor(n);
     cout << endl << "该整数的因子构成的集合为:" << endl;
