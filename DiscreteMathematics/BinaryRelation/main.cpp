@@ -4,10 +4,15 @@ using namespace std;
 
 class Matrix {
 public:
-  Matrix(int n) :a(n) {
-    for (auto &r : a) { r.resize(n); }
+  Matrix(const size_t &n) :a(n) { for (auto &r : a) { r.resize(n); } }
+  friend istream &operator>>(istream &in, Matrix &m) {
+    for (size_t i = 0; i < m.a.size(); i++) {
+      for (size_t j = 0; j < m.a.size(); j++) {
+        int tmp; in >> tmp; m.a[i][j] = tmp != 0;
+      }
+    }
+    return in;
   }
-  friend istream &operator>>(istream &in, Matrix &m);
   bool isReflexive() { //×Ô·´ÐÔ
     for (size_t i = 0; i < a.size(); i++) {
       if (!a[i][i]) { return false; }
@@ -51,16 +56,6 @@ public:
 private:
   vector<vector<bool> > a;
 };
-
-istream &operator>>(istream &in, Matrix &m) {
-  int tmp;
-  for (size_t i = 0; i < m.a.size(); i++) {
-    for (size_t j = 0; j < m.a.size(); j++) {
-      in >> tmp; m.a[i][j] = tmp != 0;
-    }
-  }
-  return in;
-}
 
 int main() {
   int n;

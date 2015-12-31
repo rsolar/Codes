@@ -1,10 +1,7 @@
 #include <iostream>
-#include <algorithm>
-#include <cctype>
 #include <string>
 #include <stack>
 #include <hash_map>
-
 using namespace std;
 using namespace stdext;
 
@@ -21,7 +18,6 @@ bool If(const bool &a, const bool &b) { return !a || b; } //条件
 bool Iff(const bool &a, const bool &b) { return a == b; } //双条件
 
 bool checkStack(const char &out); //比较栈内外操作符优先级
-void getValue(int v[], int r); //真值指派
 void input(string &s); //输入表达式
 void toSuffix(string &s); //转换为后缀表达式
 bool calculate(const string &s, const int v[]); //计算表达式
@@ -36,9 +32,8 @@ int main() {
 }
 
 bool checkStack(const char &out) {
-  char in = stk.top();
   int i, o;
-  switch (in) {
+  switch (stk.top()) {
     case '#': i = 0; break;
     case '(': i = 1; break;
     case '=': i = 3; break;
@@ -61,24 +56,14 @@ bool checkStack(const char &out) {
   return i < o;
 }
 
-void getValue(int v[], int r) {
-  for (int i = n - 1; i >= 0; i--) {
-    v[i] = r & 1;
-    r >>= 1;
-  }
-}
-
 void input(string &s) {
   cout << "支持符号: 否定: !   合取:   &    析取: |" << endl;
   cout << "          条件: ->  双条件: <->  括号: ( )" << endl << endl;
-  size_t i;
-  while (true) {
+  for (size_t i;;) {
     var.clear();
     cout << "请输入表达式，变元不区分大小写: " << endl;
     getline(cin, s);
-    while ((i = s.find(' ')) != -1) {
-      s.erase(i, 1);
-    }
+    while ((i = s.find(' ')) != string::npos) { s.erase(i, 1); }
     for (i = 0; i < s.size(); i++) {
       if (s[i] == '-') {
         if (i + 2 < s.size() && s[i + 1] == '>') {
@@ -95,9 +80,7 @@ void input(string &s) {
       } else if (isalpha(s[i])) {
         if (i + 1 == s.size() || !isalpha(s[i + 1])) {
           s[i] = toupper(s[i]);
-          if (var.find(s[i]) == var.end()) {
-            var[s[i]] = n++;
-          }
+          if (var.find(s[i]) == var.end()) { var[s[i]] = n++; }
         } else {
           break;
         }
@@ -122,20 +105,14 @@ void toSuffix(string &s) {
     } else if (checkStack(s[i])) {
       stk.push(s[i]);
     } else if (s[i] == ')') {
-      while (stk.top() != '(') {
-        ret += stk.top(); stk.pop();
-      }
+      while (stk.top() != '(') { ret += stk.top(); stk.pop(); }
       stk.pop();
     } else {
-      do {
-        ret += stk.top(); stk.pop();
-      } while (!checkStack(s[i]));
+      do { ret += stk.top(); stk.pop(); } while (!checkStack(s[i]));
       stk.push(s[i]);
     }
   }
-  while (stk.top() != '#') {
-    ret += stk.top(); stk.pop();
-  }
+  while (stk.top() != '#') { ret += stk.top(); stk.pop(); }
   stk.pop();
   s = ret;
 }
@@ -146,10 +123,8 @@ bool calculate(const string &s, const int v[]) {
     if (isalpha(s[i])) {
       stk.push(v[var[s[i]]]);
     } else {
-      a = stk.top(); stk.pop();
-      if (s[i] != '!') {
-        b = stk.top(); stk.pop();
-      }
+      a = stk.top() == 1; stk.pop();
+      if (s[i] != '!') { b = stk.top() == 1; stk.pop(); }
       switch (s[i]) {
         case '!': ret = Not(a); break;
         case '&': ret = And(a, b); break;
@@ -160,42 +135,29 @@ bool calculate(const string &s, const int v[]) {
       stk.push(ret);
     }
   }
-  ret = stk.top(); stk.pop();
+  ret = stk.top() == 1; stk.pop();
   return ret;
 }
 
 void print(const string &s) {
   vector<int> pdnf, pcnf;
-  int v[maxn];
-  bool ret;
+  int v[maxn]; bool ret;
   cout << endl;
-  for (auto p = var.begin(); p != var.end(); p++) {
-    if (p != var.begin()) { cout << '\t'; }
-    cout << p->first;
-  }
-  cout << "\t原表达式" << endl;
+  for (auto p : var) { cout << p.first << '\t'; }
+  cout << "原表达式" << endl;
   for (int i = (1 << n) - 1; i >= 0; i--) {
-    getValue(v, i);
-    ret = calculate(s, v);
-    if (ret) {
-      pdnf.push_back(i);
-    } else {
-      pcnf.push_back(i);
-    }
-    for (auto p = var.begin(); p != var.end(); p++) {
-      cout << v[var[p->first]] << '\t';
-    }
+    for (int j = n - 1, t = i; j >= 0; j--) { v[j] = t & 1; t >>= 1; } //真值指派
+    ret = calculate(s, v); ret ? pdnf.push_back(i) : pcnf.push_back(i);
+    for (auto p : var) { cout << v[var[p.first]] << '\t'; }
     cout << ret << endl;
   }
   cout << endl << "主析取范式为: " << endl;
   for (size_t i = pdnf.size() - 1; i >= 0; i--) { //从小到大输出各小项
-    if (i != pdnf.size() - 1) { cout << " ∨ "; }
-    cout << 'm' << pdnf[i];
+    cout << (i != pdnf.size() - 1 ? " ∨ m" : "m") << pdnf[i];
   }
   cout << endl << endl << "主合取范式为: " << endl;
   for (size_t i = pcnf.size() - 1; i >= 0; i--) { //从小到大输出各大项
-    if (i != pcnf.size() - 1) { cout << " ∧ "; }
-    cout << 'M' << pcnf[i];
+    cout << (i != pcnf.size() - 1 ? " ∧ M" : "M") << pcnf[i];
   }
   cout << endl << endl;
 }

@@ -47,7 +47,7 @@ void dfs2(int u, vector<vector<bool> > &mp, vector<int> &path) { //DFS
   path.push_back(u + 1);
 }
 
-vector<int> getEulerianPath(vector<vector<bool> > mp, const vector<int> &degree) { //Hierholzer算法求欧拉路径/回路
+vector<int> getEulerianPath(vector<vector<bool> > mp, const vector<int> &degree) { //Fleury算法求欧拉路径/回路
   vector<int> path;
   auto ptr = find_if(degree.begin(), degree.end(), [](int x) { return x & 1; });
   dfs2(ptr == degree.end() ? 0 : *ptr, mp, path);
