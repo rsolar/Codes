@@ -152,11 +152,11 @@ void print(const string &s) {
     cout << ret << endl;
   }
   cout << endl << "主析取范式为: " << endl;
-  for (size_t i = pdnf.size() - 1; i >= 0; i--) { //从小到大输出各小项
+  for (int i = pdnf.size() - 1; i >= 0; i--) { //从小到大输出各小项
     cout << (i != pdnf.size() - 1 ? " ∨ m" : "m") << pdnf[i];
   }
   cout << endl << endl << "主合取范式为: " << endl;
-  for (size_t i = pcnf.size() - 1; i >= 0; i--) { //从小到大输出各大项
+  for (int i = pcnf.size() - 1; i >= 0; i--) { //从小到大输出各大项
     cout << (i != pcnf.size() - 1 ? " ∧ M" : "M") << pcnf[i];
   }
   cout << endl << endl;
