@@ -1,0 +1,8 @@
+SET STATISTICS TIME ON
+
+SELECT model
+FROM dbo.Printer
+WHERE price >= ALL (SELECT price
+	FROM dbo.Printer)
+
+SET STATISTICS TIME OFF

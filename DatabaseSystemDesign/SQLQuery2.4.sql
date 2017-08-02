@@ -1,0 +1,8 @@
+SET STATISTICS TIME ON
+
+SELECT DISTINCT pc1.hd
+FROM dbo.PC pc1, dbo.PC pc2 
+WHERE pc1.hd = pc2.hd
+	AND pc1.model != pc2.model
+
+SET STATISTICS TIME OFF

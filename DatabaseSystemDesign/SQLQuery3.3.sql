@@ -1,0 +1,8 @@
+SET STATISTICS TIME ON
+
+SELECT model
+FROM dbo.Laptop
+WHERE speed < ALL (SELECT speed
+	FROM dbo.PC)
+
+SET STATISTICS TIME OFF

@@ -1,0 +1,9 @@
+SET STATISTICS TIME ON
+
+SELECT maker
+FROM dbo.Product
+WHERE type = 'pc'
+GROUP BY maker
+HAVING COUNT(model) >= 3
+
+SET STATISTICS TIME OFF

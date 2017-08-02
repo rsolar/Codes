@@ -1,0 +1,7 @@
+SET STATISTICS TIME ON
+
+SELECT speed, AVG(price) AS 'avg price'
+FROM dbo.PC
+GROUP BY speed
+
+SET STATISTICS TIME OFF
