@@ -18,12 +18,12 @@ public:
 template<typename T, class TMemoryAllocator = DefaultMemoryAllocator>
 class MemoryPool {
 public:
-    explicit MemoryPool(size_t initial_capacity = 32, size_t max_block_length = 1000000) :
-            last_deleted_(nullptr),
-            count_in_node_(0),
-            node_capacity_(initial_capacity),
-            first_node_(initial_capacity),
-            max_block_length_(max_block_length) {
+    explicit MemoryPool(size_t initial_capacity = 32, size_t max_block_length = 1000000)
+            : last_deleted_(nullptr),
+              count_in_node_(0),
+              node_capacity_(initial_capacity),
+              first_node_(initial_capacity),
+              max_block_length_(max_block_length) {
         if (max_block_length < 1) {
             throw std::invalid_argument("max_block_length must be at least 1.");
         }
@@ -31,13 +31,13 @@ public:
         last_node_ = &first_node_;
     }
 
-    MemoryPool(const MemoryPool<T, TMemoryAllocator> &source) = delete;
+    MemoryPool(const MemoryPool<T, TMemoryAllocator> &) = delete;
 
-    MemoryPool(MemoryPool<T, TMemoryAllocator> &&source) noexcept = default;
+    MemoryPool(MemoryPool<T, TMemoryAllocator> &&) noexcept = default;
 
-    void operator=(const MemoryPool<T, TMemoryAllocator> &source) = delete;
+    void operator=(const MemoryPool<T, TMemoryAllocator> &) = delete;
 
-    MemoryPool &operator=(MemoryPool<T, TMemoryAllocator> &&source) noexcept = default;
+    MemoryPool &operator=(MemoryPool<T, TMemoryAllocator> &&) noexcept = default;
 
     ~MemoryPool() {
         Node *node = first_node_.next_node_;
@@ -86,9 +86,9 @@ public:
 
 private:
     struct Node {
-        Node(size_t capacity) :
-                capacity_(capacity),
-                next_node_(nullptr) {
+        Node(size_t capacity)
+                : capacity_(capacity),
+                  next_node_(nullptr) {
             if (capacity < 1) {
                 throw std::invalid_argument("Node capacity must be at least 1.");
             }
@@ -98,13 +98,13 @@ private:
             }
         }
 
-        Node(const Node &source) = default;
+        Node(const Node &) = delete;
 
-        Node(Node &&source) noexcept = default;
+        Node(Node &&) noexcept = default;
 
-        Node &operator=(const Node &source) = default;
+        Node &operator=(const Node &) = delete;
 
-        Node &operator=(Node &&source) noexcept = default;
+        Node &operator=(Node &&) noexcept = default;
 
         ~Node() {
             TMemoryAllocator::Deallocate(memory_, item_size_ * capacity_);

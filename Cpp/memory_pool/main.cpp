@@ -3,11 +3,9 @@
 #include <iostream>
 #include <ctime>
 
-int main() {
-    using std::cin;
-    using std::cout;
-    using std::endl;
+using namespace std;
 
+int main() {
     const int NUMBER_OF_ITEMS = 100;
     const int NUMBER_OF_ITERATIONS = 1000000;
 
