@@ -8,7 +8,7 @@ public:
 
     virtual ~Api() { cout << "Api::~Api()" << endl; }
 
-    virtual void Operation(const string &op) const = 0;
+    virtual void operation(const string &op) const = 0;
 };
 
 class ImplA : public Api {
@@ -17,7 +17,7 @@ public:
 
     ~ImplA() { cout << "ImplA::~ImplA()" << endl; }
 
-    void Operation(const string &op) const { cout << "ImplA::Operation(): " << op << endl; }
+    void operation(const string &op) const { cout << "ImplA::operation(): " << op << endl; }
 };
 
 class ImplB : public Api {
@@ -26,7 +26,7 @@ public:
 
     ~ImplB() { cout << "ImplB::~ImplB()" << endl; }
 
-    void Operation(const string &op) const { cout << "ImplB::Operation(): " << op << endl; }
+    void operation(const string &op) const { cout << "ImplB::operation(): " << op << endl; }
 };
 
 class Factory {
@@ -42,8 +42,8 @@ int main() {
     Api *implA = Factory::CreateApi("A");
     Api *implB = Factory::CreateApi("B");
 
-    implA->Operation("test");
-    implB->Operation("test");
+    implA->operation("test");
+    implB->operation("test");
 
     delete implA;
     delete implB;
