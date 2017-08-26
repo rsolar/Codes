@@ -6,6 +6,6 @@
   - [smart_ptr](./Cpp/smart_ptr)
   - [thread_pool](./Cpp/thread_pool)
 
-- [Design patterns](./Design patterns)
+- [Design patterns]('./Design patterns')
 
 
