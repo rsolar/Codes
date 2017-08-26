@@ -96,11 +96,6 @@ private:
     }
 
 private:
-    template<class U>
-    friend
-    class unique_ptr;
-
-private:
     T *px;
 };
 
